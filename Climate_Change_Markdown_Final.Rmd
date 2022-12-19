@@ -1,0 +1,67 @@
+---
+title: "Climate Change And Impacts"
+author: "Nikhita Vaddineni"
+output: html_document
+date: "2022-12-19"
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![Picture Of The Earth Melting](https://today.duke.edu/sites/default/files/Climate%20Talks-Profeta_4.jpg)
+
+## The Problem
+Climate change is one of the most talked about topics due to its potential to significantly impact the planet and all of the life on it.The Earth's climate is naturally variable, but it has generally remained within a relatively narrow range that has allowed life to thrive. However, human activities, such as the burning of fossil fuels, deforestation, and industrial processes, are releasing large amounts of greenhouse gases into the atmosphere. These gases trap heat from the sun and cause the Earth's temperature to rise, leading to a range of impacts on the planet's natural systems. Climate change has been causing a multitude of changes to our ecosystems. Sea levels have been rising, causing coastal flooding and erosion and making it more difficult for people living in low-lying areas to remain there.  There have been severe changes in weather patterns, including more frequent and severe storms, droughts, and heatwaves. These changes can affect agriculture, water resources, and other aspects of human life and the natural environment. There has been a huge loss of biodiversity as some species struggle to adapt to changing conditions and others are unable to migrate to new areas as their habitats shift. Severe damage to natural systems that support human life have slowly been taking place over the last 20 to 40 years, such as the loss of coral reefs that provide a home for many species and protect coastlines from storms, or the alteration of forests that provide timber, medicine, and other resources.
+
+## Our Questions
+I want explore different aspects of climate change. How different parts of the world contribute and react different to climate change based off of their GDP, total greenhouse gas emissions, use of oil, use of coal, etc. We want to see how these countries reliance on these technologies can impact their global footprint and what trends we should follow to create a greener, cleaner world. 
+To understand our data set better I am going to explore the following questions:
+- How is a countries GDP affect its annual production of CO2?
+- Does population severly affect the production of GDP, or is it more based on the industries in a location?
+- How has the total CO2 emissions changed over the years?
+
+## Our Data
+I used data from [Our World In Data](https://ourworldindata.org/co2-and-other-greenhouse-gas-emissions), and I found several subsets of data that highlight different aspects of global warming due to CO2 and other greenhouse gases. I wanted to look at how the GDP of different countries affects their CO2 output. I also wanted to see how different population levels affect their countries CO2 levels and see if there was any correlation between the two. Finally, I wanted to analyze the changes in CO2 emissions and how steeply its been increasing. 
+
+## What I Found
+I found that in areas that are major contributers to CO2 emissions per capita are all oil producing countries. It brought up a new area to compare for the future. 
+
+
+## Plots
+
+You can also embed plots, for example:
+
+```{r}
+ui <- fluidPage(
+  inputPanel(
+    sliderInput(inputId = "bins",
+                        "CO2 emissions per capita (tons):",
+                        min = 0,
+                        max = 20,
+                        value = 30),
+    plotOutput("hist")
+  )
+)
+```
+
+
+```{r}
+
+server <- function(input, output) {
+  output$hist <- renderPlot({
+      x    <- faithful[, 2]
+        hist(rnorm(input$bins))
+      bins <- seq(min(x), max(x), length.out = input$bins + 1)
+           hist(x, breaks = input$bins, col = 'black', border = 'white',
+           xlab = 'CO2 Emissions in tons',
+           main = 'Population in a given area')
+    })
+}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
